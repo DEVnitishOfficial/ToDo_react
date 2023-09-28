@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ToDoLists from './components/ToDoLists'
 import './App.css'
 
 function App() {
@@ -12,25 +13,40 @@ function App() {
 
   const itemLists = () => {
   setItems((oldItems) => {
-    return [...oldItems, inputList]
-  })
+    return [...oldItems , inputList]
+  });
+  setInputList("");
+  }
+
+  const deleteItem = (id) => {
+    setItems((oldItems) => {
+      return oldItems.filter((arrEle, index) => {
+        return index !== id;
+      })
+    })
+    console.log("item deleted successfully");
   }
 
   return (
     <>
-     <div className='bg-slate-600'>
+     <div className='bg-gray-500'>
       <div>
         <br />
         <h1 className='text-[30px] bg-cyan-500 text-white'>ToDo List</h1>
         <br />
-        <input className='placeholder-green-500 text-2xl' type=" text " placeholder='add item' onChange={displayItem} />
-        <button className='w-16 h-16 rounded-full bg-green-400' onClick={itemLists}>+</button>
+        <input className='placeholder-black text-2xl bg-transparent outline-none border-2 border-black  rounded p-1' type=" text " placeholder='add item' onChange={displayItem} value={inputList} />
+        <button className='w-11 h-11 rounded-full bg-green-400 m-5 ' onClick={itemLists} >+</button>
 
         <ol>
           {/* <li className='text-white'>{inputList}</li> */}
           {
-          item.map( (itemVal) => {
-            return <li>{itemVal}</li>
+          item.map( (itemVal, index) => {
+          return <ToDoLists 
+          key={index}
+          id={index}
+          text={itemVal} 
+          onSelect={deleteItem}
+         />;
           })
           }
         </ol>
